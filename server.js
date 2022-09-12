@@ -45,23 +45,30 @@ app.post("/api/notes", (req, res) => {
     noteList.push(newNote);
 
     //Write the notes object back to the db
-    fs.writeFileSync("./db/db.json", JSON.stringify(noteList));
-    //Return back to client
-    res.json(noteList);
+    try {
+        fs.writeFileSync("./db/db.json", JSON.stringify(noteList));
+        //Return back to client
+        res.json(noteList);
+    } catch (err) {
+        console.log(err);
+    }
 })
 
 //Delete note
 app.delete("/api/notes/:id", (req, res) => {
-    //Read the file from db and set as an object in a variable
+    //Read the file from db and set as an object in a variable  
     let noteList = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
 
     //Filter out all ids except the one to be deleted and return them
     let updateList = noteList.filter(note => note.id !== req.params.id)
 
-
     //Write object to db and return to client
-    fs.writeFileSync("./db/db.json", JSON.stringify(updateList));
-    res.json(noteList);
+    try {
+        fs.writeFileSync("./db/db.json", JSON.stringify(updateList));
+        res.json(noteList);
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 //Listening on the port
