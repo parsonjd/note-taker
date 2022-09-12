@@ -50,5 +50,19 @@ app.post("/api/notes", (req, res) => {
     res.json(noteList);
 })
 
+//Delete note
+app.delete("/api/notes/:id", (req, res) => {
+    //Read the file from db and set as an object in a variable
+    let noteList = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+
+    //Filter out all ids except the one to be deleted and return them
+    let updateList = noteList.filter(note => note.id !== req.params.id)
+
+
+    //Write object to db and return to client
+    fs.writeFileSync("./db/db.json", JSON.stringify(updateList));
+    res.json(noteList);
+});
+
 //Listening on the port
 app.listen(PORT, () => console.log("Server listening on port " + PORT));
