@@ -9,7 +9,7 @@ const app = express();
 // Sets environment for heroku
 const PORT = process.env.PORT || 3001;
 
-//sServe static files
+//Serve static files, enable form data and parse json body
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
